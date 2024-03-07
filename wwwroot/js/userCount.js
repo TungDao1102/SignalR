@@ -1,7 +1,8 @@
 ﻿// const { signalR } = require("./signalr");
 
 // create connection, url from program.cs
-var connectionUserCount = new signalR.HubConnectionBuilder().withUrl("/hubs/userCount").build();
+var connectionUserCount = new signalR.HubConnectionBuilder().withUrl("/hubs/userCount", signalR.HttpTransportType.WebSockets).build();
+// LongPolling, ServerSentEvents
 
 // connect to hub then retrieve notification from hub
 connectionUserCount.on("updateTotalViews", (value) => {
@@ -16,7 +17,14 @@ connectionUserCount.on("updateTotalUsers", (value) => {
 
 // call to hub (send notification to hub)
 function newWindowLoadedOnClient() {
-    connectionUserCount.send("NewWindowLoaded");
+    //connectionUserCount.invoke("NewWindowLoaded").then((value) => {
+    //    console.log(value);
+    //});
+      connectionUserCount.invoke("NewWindowLoaded", "string").then((value) => {
+    console.log(value);
+});
+    // use send => no return value (void)
+    // use invoke => return value
 }
 
 // start connection

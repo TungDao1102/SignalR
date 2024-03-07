@@ -29,5 +29,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<UserHub>("/hubs/userCount");
-
+app.MapHub<DeathlyHallowHub>("hubs/deathlyhallow");
 app.Run();
